@@ -12,12 +12,12 @@
     "wait:api": "wait-on -t 300000 http-get://localhost:3900/system/info",
     "wait:frontend": "wait-on -t 120000 http://localhost:3901",
     "predev": "bun install",
-    "dev": "bun run --cwd electron dev",
+    "dev": "node api.js && bun run --cwd electron dev",
     "predesktop": "bun install",
     "desktop": "bun run --cwd electron dev",
-    "build": "bun run --cwd electron build",
+    "build": "node api.js && bun run --cwd electron build",
     "check:electron": "bun run --cwd electron typecheck && bun run --cwd electron test && bun run --cwd electron build && bun run --cwd electron build:web && node electron/tests/packaging-contract.mjs",
-    "start": "bun run --cwd electron start",
+    "start": "node api.js && bun run --cwd electron start",
     "test:frontend": "node --test tests/frontend/*.test.mjs",
     "smoke-test": "node scripts/electron-smoke-test.mjs",
     "deps:check": "taze -r --maturity-period 7",
@@ -35,7 +35,9 @@
     "format": "bun run --cwd electron format",
     "dist:dir": "bun run --cwd electron dist:dir --publish never"
   },
-  "workspaces": ["electron"],
+  "workspaces": [
+    "electron"
+  ],
   "devDependencies": {
     "concurrently": "^10.0.5",
     "playwright": "^1.63.0",
